@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ámbar — estudio de masaje y belleza</title>
+<meta name="description" content="Estudio de masaje y tratamientos de belleza. Abrimos pronto.">
+<meta name="theme-color" content="#191210">
+
+<meta property="og:title" content="Ámbar — estudio de masaje y belleza">
+<meta property="og:description" content="Estamos preparando el espacio. Abrimos esta primavera.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,200..600,0..100&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23191210'/><circle cx='50' cy='50' r='22' fill='%23C9B49A'/></svg>">
+
+<style>
+  /* ---------- tokens ---------- */
+  :root{
+    --negro:#0C0908;
+    --espresso:#191210;
+    --cacao:#2A1E19;
+    --corteza:#4A362C;
+    --tan:#AD8A6C;
+    --arena:#C9B49A;
+    --beige:#E6D9C6;
+    --lino:#F4EDE4;
+
+    --serif:"Fraunces","Hoefler Text",Georgia,"Times New Roman",serif;
+    --sans:"Hanken Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+
+    --paso:clamp(1.5rem,4vw,3.25rem);
+    --borde:rgba(201,180,154,.16);
+
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *,*::before,*::after{box-sizing:inherit}
+
+  html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+
+  body{
+    margin:0;
+    min-height:100%;
+    font-family:var(--sans);
+    font-weight:300;
+    color:var(--arena);
+    background:var(--espresso);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ---------- ambiente: luz que respira ---------- */
+  .ambiente{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 50% 120%, #241913 0%, transparent 62%),
+      linear-gradient(170deg, var(--negro) 0%, var(--espresso) 48%, #130D0B 100%);
+  }
+  .respiro{
+    position:absolute;left:50%;top:38%;
+    width:min(118vw,1180px);aspect-ratio:1;
+    translate:-50% -50%;
+    background:radial-gradient(circle,
+      rgba(201,180,154,.22) 0%,
+      rgba(173,138,108,.13) 26%,
+      rgba(74,54,44,.10) 46%,
+      transparent 68%);
+    filter:blur(22px);
+    animation:respirar 11s ease-in-out infinite;
+  }
+  .respiro.b{
+    top:72%;left:78%;
+    width:min(76vw,760px);
+    background:radial-gradient(circle, rgba(173,138,108,.14) 0%, rgba(74,54,44,.09) 42%, transparent 70%);
+    animation-duration:15s;animation-delay:-4s;
+  }
+  @keyframes respirar{
+    0%,100%{transform:scale(.90);opacity:.58}
+    42%   {transform:scale(1.07);opacity:1}
+    70%   {transform:scale(1.00);opacity:.80}
+  }
+
+  /* resplandor que sigue al cursor */
+  .tacto{
+    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;
+    transition:opacity .9s ease;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),
+      rgba(230,217,198,.09), rgba(173,138,108,.04) 45%, transparent 72%);
+  }
+  .tacto.on{opacity:1}
+
+  /* grano */
+  .grano{
+    position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.52'/%3E%3C/svg%3E");
+    animation:granular 7s steps(6) infinite;
+  }
+  @keyframes granular{
+    0%{transform:translate(0,0)}  20%{transform:translate(-3%,2%)}
+    40%{transform:translate(2%,-3%)} 60%{transform:translate(-2%,-2%)}
+    80%{transform:translate(3%,1%)} 100%{transform:translate(0,0)}
+  }
+
+  /* ---------- armazón ---------- */
+  .lienzo{
+    position:relative;z-index:3;
+    min-height:100svh;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    gap:var(--paso);
+    padding:clamp(1.4rem,3.4vw,2.6rem) var(--paso) clamp(1.4rem,3.4vw,2.4rem);
+    max-width:1320px;margin-inline:auto;
+  }
+
+  /* ---------- cabecera ---------- */
+  .cabecera{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+  .marca{
+    font-family:var(--serif);
+    font-size:clamp(1.3rem,2.1vw,1.6rem);
+    font-weight:400;font-variation-settings:"SOFT" 40,"opsz" 32;
+    letter-spacing:.11em;color:var(--lino);margin:0;
+  }
+  .oficio{font-size:.8rem;letter-spacing:.07em;color:var(--tan);margin:.3rem 0 0}
+  .telefono{
+    font-size:.88rem;letter-spacing:.04em;color:var(--arena);
+    text-decoration:none;border-bottom:1px solid var(--borde);padding-bottom:.22rem;
+    transition:color .35s ease,border-color .35s ease;
+  }
+  .telefono:hover,.telefono:focus-visible{color:var(--lino);border-color:var(--tan)}
+
+  /* ---------- centro ---------- */
+  .centro{
+    align-self:center;
+    max-width:62ch;
+    padding-block:clamp(1rem,5vh,3rem);
+  }
+
+  h1{
+    font-family:var(--serif);
+    font-weight:300;font-variation-settings:"SOFT" 70,"opsz" 120;
+    font-size:clamp(2.55rem,7.6vw,6.1rem);
+    line-height:1.02;
+    letter-spacing:-.022em;
+    color:var(--lino);
+    margin:0 0 clamp(1.3rem,2.6vw,1.9rem);
+  }
+  h1 .pal{display:inline-block;opacity:0;filter:blur(9px);transform:translateY(.42em)}
+  .cargado h1 .pal{
+    animation:emerger .95s cubic-bezier(.22,.68,.26,1) forwards;
+    animation-delay:calc(var(--i) * 110ms);
+  }
+  @keyframes emerger{to{opacity:1;filter:blur(0);transform:none}}
+
+  .entrada{
+    font-size:clamp(1rem,1.65vw,1.14rem);
+    line-height:1.72;max-width:46ch;color:var(--arena);
+    margin:0 0 clamp(2rem,4vw,2.8rem);
+    opacity:0;transform:translateY(12px);
+  }
+  .cargado .entrada{transition:opacity .9s ease .62s,transform .9s ease .62s;opacity:1;transform:none}
+
+  /* ---------- aviso por correo ---------- */
+  .aviso{opacity:0;transform:translateY(12px);max-width:34rem}
+  .cargado .aviso{transition:opacity .9s ease .78s,transform .9s ease .78s;opacity:1;transform:none}
+
+  .peticion{font-size:.92rem;color:var(--tan);margin:0 0 1rem;line-height:1.6}
+
+  .campo{display:flex;gap:.7rem;flex-wrap:wrap;align-items:flex-end}
+  .campo input{
+    flex:1 1 15rem;min-width:0;
+    font-family:var(--sans);font-size:1rem;font-weight:300;
+    color:var(--lino);background:transparent;
+    border:0;border-bottom:1px solid var(--borde);
+    padding:.72rem .15rem;
+    transition:border-color .4s ease;
+  }
+  .campo input::placeholder{color:rgba(173,138,108,.62)}
+  .campo input:focus{outline:none;border-bottom-color:var(--arena)}
+  .campo input:focus-visible{outline:2px solid var(--arena);outline-offset:6px;border-radius:2px}
+
+  .campo button{
+    font-family:var(--sans);font-size:.92rem;font-weight:500;letter-spacing:.03em;
+    color:var(--espresso);background:var(--beige);
+    border:0;border-radius:999px;
+    padding:.78rem 1.65rem;cursor:pointer;
+    transition:background .35s ease,transform .35s ease;
+  }
+  .campo button:hover{background:var(--lino);transform:translateY(-1px)}
+  .campo button:focus-visible{outline:2px solid var(--arena);outline-offset:4px}
+
+  .hecho{
+    font-size:.95rem;color:var(--beige);line-height:1.6;margin:0;
+    opacity:0;transform:translateY(8px);
+    transition:opacity .6s ease,transform .6s ease;
+  }
+  .hecho.ver{opacity:1;transform:none}
+  [hidden]{display:none !important}
+
+  /* ---------- pie: avance de la obra ---------- */
+  .pie{opacity:0;transform:translateY(12px)}
+  .cargado .pie{transition:opacity 1s ease .95s,transform 1s ease .95s;opacity:1;transform:none}
+
+  .via{position:relative;padding-top:1.8rem;border-top:1px solid var(--borde)}
+  .carril{position:relative;height:1px;background:rgba(201,180,154,.14);margin-bottom:1.1rem}
+  .relleno{
+    position:absolute;inset:0 auto 0 0;width:0;
+    background:linear-gradient(90deg,var(--corteza),var(--arena));
+    transition:width 2.6s cubic-bezier(.3,.7,.2,1) 1.1s;
+  }
+  .cargado .relleno{width:62%}
+
+  .etapas{list-style:none;display:flex;justify-content:space-between;gap:1rem;margin:0;padding:0}
+  .etapas li{font-size:.83rem;letter-spacing:.04em;color:rgba(173,138,108,.72);display:flex;align-items:center;gap:.5rem}
+  .etapas li:last-child{text-align:right}
+  .punto{width:6px;height:6px;border-radius:50%;background:rgba(173,138,108,.42);flex:none}
+  .etapas li.lista{color:var(--arena)}
+  .etapas li.lista .punto{background:var(--arena)}
+  .etapas li.ahora{color:var(--lino)}
+  .etapas li.ahora .punto{background:var(--lino);animation:pulso 3.4s ease-in-out infinite}
+  @keyframes pulso{
+    0%,100%{box-shadow:0 0 0 0 rgba(244,237,228,.42)}
+    55%{box-shadow:0 0 0 7px rgba(244,237,228,0)}
+  }
+
+  .lugar{
+    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    margin:1.9rem 0 0;font-size:.82rem;color:rgba(173,138,108,.72);
+  }
+  .lugar a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;transition:color .35s ease,border-color .35s ease}
+  .lugar a:hover,.lugar a:focus-visible{color:var(--arena);border-bottom-color:var(--borde)}
+
+  /* ---------- móvil ---------- */
+  @media (max-width:640px){
+    .etapas{flex-direction:column;gap:.72rem}
+    .etapas li:last-child{text-align:left}
+    .cabecera{flex-direction:column;align-items:flex-start;gap:1.1rem}
+    .campo button{width:100%}
+  }
+
+  /* ---------- sin movimiento ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none !important;transition-duration:.01ms !important}
+    h1 .pal,.entrada,.aviso,.pie{opacity:1 !important;filter:none !important;transform:none !important}
+    .cargado .relleno{width:62%}
+    .tacto{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="ambiente" aria-hidden="true">
+  <div class="respiro"></div>
+  <div class="respiro b"></div>
+</div>
+<div class="tacto" id="tacto" aria-hidden="true"></div>
+<div class="grano" aria-hidden="true"></div>
+
+<div class="lienzo">
+
+  <header class="cabecera">
+    <div>
+      <p class="marca">TorreSana</p>
+      <p class="oficio">masaje y tratamientos de belleza</p>
+    </div>
+    <a class="telefono" href="tel:+34624100232">+34 624 100 232</a>
+  </header>
+
+  <main class="centro">
+    <h1>
+      <span class="pal" style="--i:0">Estamos</span>
+      <span class="pal" style="--i:1">preparando</span>
+      <span class="pal" style="--i:2">el</span>
+      <span class="pal" style="--i:3">espacio.</span>
+    </h1>
+
+    <p class="entrada">
+      Un estudio pequeño en el centro de Torrelodones, pensado para que el cuerpo
+      baje el ritmo. Masaje terapéutico tratamientos faciales.
+    </p>
+
+  </main>
+
+  <footer class="pie">
+    <div class="via">
+      <div class="carril"><div class="relleno"></div></div>
+      <ul class="etapas">
+        <li class="lista"><span class="punto"></span>Dominio y arquitectura de la pagina</li>
+        <li class="ahora"><span class="punto"></span>Ultimando diseño web</li>
+        <li><span class="punto"></span>Web desplegada</li>
+      </ul>
+      <div class="lugar">
+        <span>C. Jesusa Lara, 43, 28250 Torrelodones, Madrid</span>
+        <span>
+          <a href="mailto:info.bienestartorresana@gmail.com">info.bienestartorresana@gmail.com</a>
+          &nbsp;&nbsp;
+          <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var suave = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* entrada orquestada */
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){ document.body.classList.add("cargado"); });
+  });
+
+  /* resplandor que sigue al cursor, solo con ratón */
+  if (suave && window.matchMedia("(pointer: fine)").matches) {
+    var capa = document.getElementById("tacto");
+    var dx = innerWidth/2, dy = innerHeight/2, x = dx, y = dy, vivo = false;
+
+    addEventListener("pointermove", function(e){
+      dx = e.clientX; dy = e.clientY;
+      if (!vivo){ vivo = true; capa.classList.add("on"); }
+    }, {passive:true});
+
+    (function seguir(){
+      x += (dx - x) * 0.07;
+      y += (dy - y) * 0.07;
+      capa.style.setProperty("--mx", x + "px");
+      capa.style.setProperty("--my", y + "px");
+      requestAnimationFrame(seguir);
+    })();
+  }
+
+  /* formulario: sin backend, guarda el correo en el navegador y confirma */
+  var forma = document.getElementById("forma");
+  var hecho = document.getElementById("hecho");
+
+  forma.addEventListener("submit", function(e){
+    e.preventDefault();
+    var campo = document.getElementById("correo");
+    var valor = campo.value.trim();
+
+    if (!valor || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor)) {
+      campo.focus();
+      campo.style.borderBottomColor = "#AD8A6C";
+      return;
+    }
+
+    try { localStorage.setItem("ambar:aviso", valor); } catch (err) { /* modo privado */ }
+
+    forma.hidden = true;
+    hecho.hidden = false;
+    requestAnimationFrame(function(){ hecho.classList.add("ver"); });
+  });
+})();
+</script>
+</body>
+</html>
