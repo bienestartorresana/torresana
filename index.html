@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ámbar — estudio de masaje y belleza</title>
-<meta name="description" content="Estudio de masaje y tratamientos de belleza.">
+<title>TorreSana — estudio de masaje y belleza</title>
+<meta name="description" content="Estudio de masaje terapéutico y tratamientos faciales en el centro de Torrelodones.">
 <meta name="theme-color" content="#191210">
+<meta name="format-detection" content="telephone=no">
 
 <meta property="og:title" content="TorreSana — estudio de masaje y belleza">
 <meta property="og:description" content="Estamos preparando la web.">
@@ -32,16 +33,18 @@
     --serif:"Fraunces","Hoefler Text",Georgia,"Times New Roman",serif;
     --sans:"Hanken Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
 
-    --paso:clamp(1.5rem,4vw,3.25rem);
+    --paso:clamp(1.25rem,4vw,3.25rem);
     --borde:rgba(201,180,154,.16);
-
-    box-sizing:border-box;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
+    --borde-fuerte:rgba(201,180,154,.30);
   }
-  *,*::before,*::after{box-sizing:inherit}
+  *,*::before,*::after{box-sizing:border-box}
 
-  html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+  html{
+    height:100%;
+    background:var(--espresso);          /* sin destellos blancos al hacer rebote en iOS */
+    -webkit-text-size-adjust:100%;
+    text-size-adjust:100%;
+  }
 
   body{
     margin:0;
@@ -51,6 +54,7 @@
     color:var(--arena);
     background:var(--espresso);
     -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
     overflow-x:hidden;
   }
 
@@ -71,6 +75,7 @@
       transparent 68%);
     filter:blur(22px);
     animation:respirar 11s ease-in-out infinite;
+    will-change:transform,opacity;
   }
   .respiro.b{
     top:72%;left:78%;
@@ -84,7 +89,7 @@
     70%   {transform:scale(1.00);opacity:.80}
   }
 
-  /* resplandor que sigue al cursor */
+  /* resplandor que sigue al cursor (solo escritorio) */
   .tacto{
     position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;
     transition:opacity .9s ease;
@@ -108,11 +113,16 @@
   /* ---------- armazón ---------- */
   .lienzo{
     position:relative;z-index:3;
+    min-height:100vh;
     min-height:100svh;
     display:grid;
     grid-template-rows:auto 1fr auto;
     gap:var(--paso);
-    padding:clamp(1.4rem,3.4vw,2.6rem) var(--paso) clamp(1.4rem,3.4vw,2.4rem);
+    padding:
+      calc(clamp(1.4rem,3.4vw,2.6rem) + env(safe-area-inset-top,0px))
+      calc(var(--paso) + env(safe-area-inset-right,0px))
+      calc(clamp(1.4rem,3.4vw,2.4rem) + env(safe-area-inset-bottom,0px))
+      calc(var(--paso) + env(safe-area-inset-left,0px));
     max-width:1320px;margin-inline:auto;
   }
 
@@ -127,7 +137,8 @@
   .oficio{font-size:.8rem;letter-spacing:.07em;color:var(--tan);margin:.3rem 0 0}
   .telefono{
     font-size:.88rem;letter-spacing:.04em;color:var(--arena);
-    text-decoration:none;border-bottom:1px solid var(--borde);padding-bottom:.22rem;
+    text-decoration:none;border-bottom:1px solid var(--borde);
+    padding:.6rem 0 .22rem;
     transition:color .35s ease,border-color .35s ease;
   }
   .telefono:hover,.telefono:focus-visible{color:var(--lino);border-color:var(--tan)}
@@ -142,11 +153,12 @@
   h1{
     font-family:var(--serif);
     font-weight:300;font-variation-settings:"SOFT" 70,"opsz" 120;
-    font-size:clamp(2.55rem,7.6vw,6.1rem);
-    line-height:1.02;
+    font-size:clamp(2.45rem,7.6vw,6.1rem);
+    line-height:1.04;
     letter-spacing:-.022em;
     color:var(--lino);
     margin:0 0 clamp(1.3rem,2.6vw,1.9rem);
+    text-wrap:balance;
   }
   h1 .pal{display:inline-block;opacity:0;filter:blur(9px);transform:translateY(.42em)}
   .cargado h1 .pal{
@@ -156,49 +168,13 @@
   @keyframes emerger{to{opacity:1;filter:blur(0);transform:none}}
 
   .entrada{
-    font-size:clamp(1rem,1.65vw,1.14rem);
+    font-size:clamp(1.02rem,1.65vw,1.14rem);
     line-height:1.72;max-width:46ch;color:var(--arena);
-    margin:0 0 clamp(2rem,4vw,2.8rem);
+    margin:0;
     opacity:0;transform:translateY(12px);
+    text-wrap:pretty;
   }
   .cargado .entrada{transition:opacity .9s ease .62s,transform .9s ease .62s;opacity:1;transform:none}
-
-  /* ---------- aviso por correo ---------- */
-  .aviso{opacity:0;transform:translateY(12px);max-width:34rem}
-  .cargado .aviso{transition:opacity .9s ease .78s,transform .9s ease .78s;opacity:1;transform:none}
-
-  .peticion{font-size:.92rem;color:var(--tan);margin:0 0 1rem;line-height:1.6}
-
-  .campo{display:flex;gap:.7rem;flex-wrap:wrap;align-items:flex-end}
-  .campo input{
-    flex:1 1 15rem;min-width:0;
-    font-family:var(--sans);font-size:1rem;font-weight:300;
-    color:var(--lino);background:transparent;
-    border:0;border-bottom:1px solid var(--borde);
-    padding:.72rem .15rem;
-    transition:border-color .4s ease;
-  }
-  .campo input::placeholder{color:rgba(173,138,108,.62)}
-  .campo input:focus{outline:none;border-bottom-color:var(--arena)}
-  .campo input:focus-visible{outline:2px solid var(--arena);outline-offset:6px;border-radius:2px}
-
-  .campo button{
-    font-family:var(--sans);font-size:.92rem;font-weight:500;letter-spacing:.03em;
-    color:var(--espresso);background:var(--beige);
-    border:0;border-radius:999px;
-    padding:.78rem 1.65rem;cursor:pointer;
-    transition:background .35s ease,transform .35s ease;
-  }
-  .campo button:hover{background:var(--lino);transform:translateY(-1px)}
-  .campo button:focus-visible{outline:2px solid var(--arena);outline-offset:4px}
-
-  .hecho{
-    font-size:.95rem;color:var(--beige);line-height:1.6;margin:0;
-    opacity:0;transform:translateY(8px);
-    transition:opacity .6s ease,transform .6s ease;
-  }
-  .hecho.ver{opacity:1;transform:none}
-  [hidden]{display:none !important}
 
   /* ---------- pie: avance de la obra ---------- */
   .pie{opacity:0;transform:translateY(12px)}
@@ -226,25 +202,81 @@
     55%{box-shadow:0 0 0 7px rgba(244,237,228,0)}
   }
 
+  /* ---------- dirección y contacto ---------- */
   .lugar{
-    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    display:flex;justify-content:space-between;align-items:center;gap:1rem 1.5rem;flex-wrap:wrap;
     margin:1.9rem 0 0;font-size:.82rem;color:rgba(173,138,108,.72);
   }
-  .lugar a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;transition:color .35s ease,border-color .35s ease}
-  .lugar a:hover,.lugar a:focus-visible{color:var(--arena);border-bottom-color:var(--borde)}
+  .direccion{
+    color:inherit;text-decoration:none;line-height:1.5;
+    border-bottom:1px solid transparent;
+    transition:color .35s ease,border-color .35s ease;
+  }
+  .direccion:hover,.direccion:focus-visible{color:var(--arena);border-bottom-color:var(--borde)}
+
+  .contacto{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+
+  .boton{
+    display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+    min-height:44px;                       /* objetivo táctil cómodo */
+    padding:.6rem 1.15rem;
+    font-family:var(--sans);font-size:.88rem;font-weight:400;letter-spacing:.03em;
+    color:var(--beige);text-decoration:none;
+    border:1px solid var(--borde-fuerte);border-radius:999px;
+    background:rgba(230,217,198,.03);
+    transition:background .35s ease,border-color .35s ease,color .35s ease,transform .35s ease;
+  }
+  .boton svg{width:18px;height:18px;flex:none}
+  .boton:hover{background:rgba(230,217,198,.08);border-color:var(--tan);color:var(--lino);transform:translateY(-1px)}
+  .boton:active{transform:scale(.98)}
+  .boton:focus-visible{outline:2px solid var(--arena);outline-offset:3px}
+
+  /* el principal: WhatsApp, relleno claro como los botones del tema */
+  .boton.wa{background:var(--beige);color:var(--espresso);border-color:var(--beige);font-weight:500}
+  .boton.wa:hover{background:var(--lino);border-color:var(--lino);color:var(--espresso)}
+
+  /* ---------- tablet ---------- */
+  @media (max-width:900px){
+    .lugar{flex-direction:column;align-items:flex-start}
+  }
 
   /* ---------- móvil ---------- */
   @media (max-width:640px){
+    .cabecera{flex-direction:row;align-items:center;gap:1rem}
+    .telefono{font-size:.84rem}
+
+    .centro{align-self:end;padding-block:0 .5rem}
+
     .etapas{flex-direction:column;gap:.72rem}
     .etapas li:last-child{text-align:left}
-    .cabecera{flex-direction:column;align-items:flex-start;gap:1.1rem}
-    .campo button{width:100%}
+
+    .lugar{gap:1.1rem;margin-top:1.6rem}
+    .contacto{order:-1;width:100%;display:grid;grid-template-columns:1fr auto;gap:.6rem}
+    .boton{min-height:50px;font-size:.95rem}
+    .boton.ig{padding-inline:1rem}
+
+    /* menos coste gráfico en móvil */
+    .respiro{filter:blur(14px)}
+    .grano{animation:none;opacity:.16}
+  }
+
+  /* pantallas muy estrechas: el teléfono baja bajo la marca */
+  @media (max-width:360px){
+    .cabecera{flex-direction:column;align-items:flex-start;gap:.4rem}
+    .contacto{grid-template-columns:1fr}
+  }
+
+  /* móvil en horizontal: todo cabe sin forzar */
+  @media (max-height:500px) and (orientation:landscape){
+    .lienzo{min-height:auto}
+    .centro{align-self:center}
+    h1{font-size:clamp(2rem,6vw,3rem)}
   }
 
   /* ---------- sin movimiento ---------- */
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none !important;transition-duration:.01ms !important}
-    h1 .pal,.entrada,.aviso,.pie{opacity:1 !important;filter:none !important;transform:none !important}
+    h1 .pal,.entrada,.pie{opacity:1 !important;filter:none !important;transform:none !important}
     .cargado .relleno{width:62%}
     .tacto{display:none}
   }
@@ -281,24 +313,39 @@
       Un estudio pequeño en el centro de Torrelodones, pensado para que el cuerpo
       baje el ritmo. Masaje terapéutico y tratamientos faciales.
     </p>
-
   </main>
 
   <footer class="pie">
     <div class="via">
       <div class="carril"><div class="relleno"></div></div>
       <ul class="etapas">
-        <li class="lista"><span class="punto"></span>Dominio y arquitectura de la pagina</li>
+        <li class="lista"><span class="punto"></span>Dominio y arquitectura de la página</li>
         <li class="ahora"><span class="punto"></span>Ultimando diseño web</li>
         <li><span class="punto"></span>Web desplegada</li>
       </ul>
+
       <div class="lugar">
-        <span>C. Jesusa Lara, 43, 28250 Torrelodones, Madrid</span>
-        <span>
-          <a href="mailto:info.bienestartorresana@gmail.com">info.bienestartorresana@gmail.com</a>
-          &nbsp;&nbsp;
-          <a href="https://instagram.com/torresanamasajes" target="_blank" rel="noopener">Instagram</a>
-        </span>
+        <a class="direccion"
+           href="https://www.google.com/maps/search/?api=1&query=C.%20Jesusa%20Lara%2C%2043%2C%2028250%20Torrelodones%2C%20Madrid"
+           target="_blank" rel="noopener">
+          C. Jesusa Lara, 43, 28250 Torrelodones, Madrid
+        </a>
+
+        <div class="contacto">
+          <a class="boton wa"
+             href="https://wa.me/34624100232?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20TorreSana."
+             target="_blank" rel="noopener"
+             aria-label="Escríbenos por WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2Z"/>
+              <path d="M9.1 8.4c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .5.4l.7 1.6c.1.2 0 .4-.1.6l-.5.6c-.1.1-.1.3 0 .5.6 1 1.4 1.8 2.5 2.4.2.1.4.1.5 0l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.3.3.5 0 .6-.3 1.2-.8 1.5-.6.3-1.4.4-2.4 0-2.1-.8-3.9-2.6-4.7-4.5-.5-1.1-.4-2.4 0-3.2Z"/>
+            </svg>
+            WhatsApp
+          </a>
+          <a class="boton ig" href="https://instagram.com/torresanamasajes" target="_blank" rel="noopener">
+            Instagram
+          </a>
+        </div>
       </div>
     </div>
   </footer>
@@ -333,28 +380,6 @@
       requestAnimationFrame(seguir);
     })();
   }
-
-  /* formulario: sin backend, guarda el correo en el navegador y confirma */
-  var forma = document.getElementById("forma");
-  var hecho = document.getElementById("hecho");
-
-  forma.addEventListener("submit", function(e){
-    e.preventDefault();
-    var campo = document.getElementById("correo");
-    var valor = campo.value.trim();
-
-    if (!valor || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor)) {
-      campo.focus();
-      campo.style.borderBottomColor = "#AD8A6C";
-      return;
-    }
-
-    try { localStorage.setItem("ambar:aviso", valor); } catch (err) { /* modo privado */ }
-
-    forma.hidden = true;
-    hecho.hidden = false;
-    requestAnimationFrame(function(){ hecho.classList.add("ver"); });
-  });
 })();
 </script>
 </body>
